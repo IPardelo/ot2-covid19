@@ -99,11 +99,4 @@ def buffer(buffer_name):
             'vol_well': 30000
         },
     }
-    buffer = {
-        'flow_rate_aspirate': buffer.get(buffer_name).get('flow_rate_aspirate'),
-        'flow_rate_dispense': buffer.get(buffer_name).get('flow_rate_dispense'),
-        'delay': buffer.get(buffer_name).get('delay'),
-        'vol_well': buffer.get(buffer_name).get('vol_well')
-
-    }
-    return buffer
+    return buffer[buffer_name]
