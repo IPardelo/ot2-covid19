@@ -26,7 +26,7 @@
 IP=''
 export SSHPASS='L@b0r4t010'
 PUBLIC_KEY_PATH='~/ot-ssh-key'
-LOCAL_DATA_PATHS=('/home/luis/Escritorio/data.csv' '/home/luis/Escritorio/data2.csv')
+LOCAL_DATA_PATHS=('/home/luis/Escritorio/prepare_pcr.csv' '/home/luis/Escritorio/data2.csv')
 ROBOT_RP_USER='root'
 ROBOT_REMOTE_PATH='/root'
 
