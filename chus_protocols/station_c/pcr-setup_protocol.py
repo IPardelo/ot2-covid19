@@ -23,8 +23,8 @@ metadata = {
 # ------------------------
 # Protocol parameters
 # ------------------------
-NUM_SAMPLES = 8            # Máximo: 48 para Vircell, 96 para los demás 
-brand = 'vircell'
+NUM_SAMPLES = 10            # Máximo: 48 para vircell o genomica, 96 para los demás 
+brand_name = 'seegene'
 
 
 # ------------------------
@@ -51,7 +51,13 @@ brands = {
     },
     'vircell': {
         'master_mix': 15,
-        'arn': 5
+        'arn': 5,
+        'split_pcr': True
+    },
+    'genomica': {
+        'master_mix': 15,
+        'arn': 5,
+        'split_pcr': True
     }
 }
 
@@ -94,6 +100,10 @@ def run(ctx: protocol_api.ProtocolContext):
     pcr_plate_destination = ctx.load_labware('abi_fast_qpcr_96_alum_opentrons_100ul', '1', 'chilled qPCR final plate')
     destinations = pcr_plate_destination.wells()
 
+    # Set our brand
+    brand = brands.get(brand_name)
+
+
     # ------------------
     # Protocol
     # ------------------
@@ -101,24 +111,24 @@ def run(ctx: protocol_api.ProtocolContext):
     for i in range(0, NUM_SAMPLES):
         if not p20.hw_pipette['has_tip']:
             common.pick_up(p20)
-        if brand == 'vircell':
+        if brand.get('split_pcr'):
             source = source_master_mix[0]
             destination = destinations[i]
             common.move_vol_multichannel(ctx, p20, reagent=master_mix, source=source, dest=destination,
-                                     vol=brands.get(brand).get('master_mix'), air_gap_vol=air_gap_vol_source,
+                                     vol=brand.get('master_mix'), air_gap_vol=air_gap_vol_source,
                                      x_offset=x_offset, pickup_height=1, rinse=master_mix.get('rinse'),
                                      disp_height=-10, blow_out=True, touch_tip=True)
             source = source_master_mix[1]
             destination = destinations[48 + i]
             common.move_vol_multichannel(ctx, p20, reagent=master_mix, source=source, dest=destination,
-                                     vol=brands.get(brand).get('master_mix'), air_gap_vol=air_gap_vol_source,
+                                     vol=brand.get('master_mix'), air_gap_vol=air_gap_vol_source,
                                      x_offset=x_offset, pickup_height=1, rinse=master_mix.get('rinse'),
                                      disp_height=-10, blow_out=True, touch_tip=True)
         else:
             source = source_master_mix[0]
             destination = destinations[i]
             common.move_vol_multichannel(ctx, p20, reagent=master_mix, source=source, dest=destination,
-                                     vol=brands.get(brand).get('master_mix'), air_gap_vol=air_gap_vol_source,
+                                     vol=brand.get('master_mix'), air_gap_vol=air_gap_vol_source,
                                      x_offset=x_offset, pickup_height=1, rinse=master_mix.get('rinse'),
                                      disp_height=-10, blow_out=True, touch_tip=True)
     p20.drop_tip()
