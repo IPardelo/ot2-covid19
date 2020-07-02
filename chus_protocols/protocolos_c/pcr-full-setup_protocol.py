@@ -109,11 +109,11 @@ def run(ctx: protocol_api.ProtocolContext):
     if requires_double_master_mix:
         second_destinations = pcr_plate_destination.wells()[NUM_SAMPLES:NUM_SAMPLES*2]
         mov = [(source_master_mix[0], destinations), (source_master_mix[1], second_destinations)]
-        # rna_destinations = zip(destinations, second_destinations_rna)
+        rna_destinations = zip(destination_by_columns, destination_by_columns_second_sample)
     else:
         mov = [(source_master_mix[0], destinations)]
-        # rna_destinations = destinations
-    N
+        rna_destinations = destination_by_columns
+
     # Dispense master mix
     for source, destinations in mov:
         for d in destinations:
@@ -126,7 +126,7 @@ def run(ctx: protocol_api.ProtocolContext):
         p20.drop_tip()
 
     # Dispense RNA samples
-    for s, des in zip(sources_rna, zip(destination_by_columns, destination_by_columns_second_sample)):
+    for s, des in zip(sources_rna, rna_destinations):
         if not m20.hw_pipette['has_tip']:
             common.pick_up(m20)
         for d in des:

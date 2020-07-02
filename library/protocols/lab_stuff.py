@@ -5,25 +5,35 @@ import math
 def brands(brand_name):
     brands = {
         'seegene': {
-           'mastermix': 17,
-            'arn': 8
+            'mastermix': 17,
+            'arn': 8,
+            'requires_double_master_mix': False
         },
         'thermofisher': {
             'mastermix': 15,
-            'arn': 10
+            'arn': 10,
+            'requires_double_master_mix': False
         },
         'roche': {
             'mastermix': 10,
-            'arn': 10
+            'arn': 10,
+            'requires_double_master_mix': False
         },
         'vircell': {
             'mastermix': 15,
-            'arn': 5
+            'arn': 5,
+            'requires_double_master_mix': True
+        },
+        'genomica': {
+            'mastermix': 15,
+            'arn': 5,
+            'requires_double_master_mix': True
         }
     }
     mastermix = brands.get(brand_name).get('mastermix')
     arn = brands.get(brand_name).get('arn')
-    return mastermix, arn
+    requires_double_master_mix = brands.get(brand_name).get('requires_double_master_mix')
+    return mastermix, arn, requires_double_master_mix
 
 
 def tubes(tube_tipe):
