@@ -77,7 +77,7 @@ def run(ctx: protocol_api.ProtocolContext):
 
     # Destination (NUM SAMPLES x pcr plate)
     pcr_plate_destination = ctx.load_labware('abi_fast_qpcr_96_alum_opentrons_100ul', '1', 'chilled qPCR final plate')
-    destinations = pcr_plate_destination.wells()[:NUM_SAMPLES]
+    destinations = pcr_plate_destination.wells()[:NUM_SAMPLES + 2]    # samples and positive and negative control
 
     # ------------------
     # Protocol
@@ -85,8 +85,9 @@ def run(ctx: protocol_api.ProtocolContext):
 
     # Dispense master mix
     if requires_double_master_mix:
-        second_destinations = pcr_plate_destination.wells()[NUM_SAMPLES:NUM_SAMPLES*2]
-        mov = [(source_master_mix[0], destinations), (source_master_mix[1], second_destinations)]
+        second_destinations = pcr_plate_destination.wells()[NUM_SAMPLES:(NUM_SAMPLES * 2) + 4]  # samples and positive and negative control
+        mov = [(source_master_mix[0], destinations),
+               (source_master_mix[1], second_destinations)]
     else:
         mov = [(source_master_mix[0], destinations)]
 
