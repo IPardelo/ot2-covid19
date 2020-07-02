@@ -29,15 +29,15 @@ metadata = {
 # ------------------------
 # Protocol parameters
 # ------------------------
-NUM_SAMPLES = 96
+NUM_SAMPLES = 16
 x_offset = [0, 0]
-brand_name = 'vircell'
+brand_name = 'genomica'
 
 air_gap_vol_source = 2
 diameter_sample = 8.25
 area_section_sample = (math.pi * diameter_sample**2) / 4
 
-(brand_master_mix, arn) = lab_stuff.brands(brand_name)
+brand_master_mix, arn, requires_double_master_mix = lab_stuff.brands(brand_name)
 
 # following volumes in ul
 master_mix = {
@@ -82,15 +82,20 @@ def run(ctx: protocol_api.ProtocolContext):
     # ------------------
     # Protocol
     # ------------------
+
     # Dispense master mix
-    i = 0
-    for d in destinations:
-        if not p20.hw_pipette['has_tip']:
-            common.pick_up(p20)
-        source = source_master_mix[1] if i > 47 else source_master_mix[0]
-        common.move_vol_multichannel(ctx, p20, reagent=master_mix, source=source, dest=d,
-                                     vol=brand_master_mix, air_gap_vol=air_gap_vol_source,
-                                     x_offset=x_offset, pickup_height=1, disp_height=-10,
-                                     blow_out=True, touch_tip=True)
-        i += 1
-    p20.drop_tip()
+    if requires_double_master_mix:
+        second_destinations = pcr_plate_destination.wells()[NUM_SAMPLES:NUM_SAMPLES*2]
+        mov = [(source_master_mix[0], destinations), (source_master_mix[1], second_destinations)]
+    else:
+        mov = [(source_master_mix[0], destinations)]
+
+    for source, destinations in mov:
+        for d in destinations:
+            if not p20.hw_pipette['has_tip']:
+                common.pick_up(p20)
+            common.move_vol_multichannel(ctx, p20, reagent=master_mix, source=source, dest=d,
+                                         vol=brand_master_mix, air_gap_vol=air_gap_vol_source,
+                                         x_offset=x_offset, pickup_height=1, disp_height=-10,
+                                         blow_out=True, touch_tip=True)
+        p20.drop_tip()
