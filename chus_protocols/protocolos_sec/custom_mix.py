@@ -38,14 +38,14 @@ NUM_OF_SOURCES_PER_RACK = 24
 # ------------------------
 buffer_name = 'Lisis'                       # Selected buffer for this protocol
 sources = 5                                 # Number of sources
-tube_type_source = 'eppendorf'               # Selected source tube for this protocol
+tube_type_source = 'criotubo'               # Selected source tube for this protocol
 
 
 # ------------------------
 # Protocol parameters (OUTPUTS)
 # ------------------------
 volume_to_be_moved = 10                     # volume in uL to be moved
-tube_type_dest = 'criotubo'                # Selected destination tube for this protocol
+tube_type_dest = 'eppendorf'                # Selected destination tube for this protocol
 
 
 # ------------------------
@@ -59,16 +59,10 @@ rounds = 20
 # ----------------------------
 # Main
 # ----------------------------
-(buffer) = lab_stuff.buffer(buffer_name)
+buffer = lab_stuff.buffer(buffer_name)
 _, _, _, _, pickup_height = lab_stuff.tubes(tube_type_source)
 _, _, _, dispense_height, _ = lab_stuff.tubes(tube_type_dest)
 
-cantidad = sources * volume_to_be_moved
-
-buffer_mezcla = {
-    'flow_rate_aspirate': buffer.get('flow_rate_aspirate'),
-    'flow_rate_dispense': buffer.get('flow_rate_dispense')
-}
 
 def run(ctx: protocol_api.ProtocolContext):
     # ------------------------
@@ -106,7 +100,7 @@ def run(ctx: protocol_api.ProtocolContext):
     if not p20.hw_pipette['has_tip']:
         common.pick_up(p20)
 
-    common.custom_mix(p20, reagent=buffer_mezcla, location=dest_rack, vol=volume_to_be_moved,
-                      rounds=rounds, blow_out=True, mix_height=cantidad, x_offset=x_offset, source_height=3)
+    common.custom_mix(p20, reagent=buffer, location=dest_rack, vol=volume_to_be_moved,
+                      rounds=rounds, blow_out=True, mix_height=dispense_height, x_offset=x_offset, source_height=dispense_height)
 
     p20.drop_tip()
