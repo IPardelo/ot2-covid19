@@ -30,7 +30,7 @@ metadata = {
 # Protocol parameters
 # ------------------------
 NUM_SAMPLES = 8
-brand_name = 'genomica'
+brand_name = 'roche'
 
 num_cols = math.ceil(NUM_SAMPLES / 8)
 x_offset = [0, 0]
@@ -112,7 +112,7 @@ def run(ctx: protocol_api.ProtocolContext):
         rna_destinations = zip(destination_by_columns, destination_by_columns_second_sample)
     else:
         mov = [(source_master_mix[0], destinations)]
-        rna_destinations = destination_by_columns
+        rna_destinations = [destination_by_columns]
 
     # Dispense master mix
     for source, destinations in mov:
