@@ -45,7 +45,7 @@ def tubes(tube_tipe):
         'eppendorf': {
             'diameter': 9,
             'hdisp': -2,
-            'hpick': 1.5,
+            'hpick': 3.5,       #previously it was: 1.5
             'hcono': 19
         },
         'criotubo': {
