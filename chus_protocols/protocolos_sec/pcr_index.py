@@ -78,13 +78,13 @@ def run(ctx: protocol_api.ProtocolContext):
     # Pipette
     p300 = ctx.load_instrument('p300_single_gen2', 'left', tip_racks=tips)
 
-    # Source (in this case X opentrons 24 tube rack 2ml)
-    source_plate = ctx.load_labware('opentrons_24_tuberack_generic_2ml_screwcap', '4', 'Tuberack 1')
+    # Source
+    source_plate = ctx.load_labware('opentrons_24_tuberack_generic_2ml_screwcap', '4', 'Tuberack')
     source1 = source_plate.wells()[:8]
     source2 = source_plate.wells()[8:20]
 
-    # Destination (in this case Xs well plate)
-    dest_plate = ctx.load_labware('abi_fast_qpcr_96_alum_opentrons_100ul', '1', 'PCR')
+    # Destination
+    dest_plate = ctx.load_labware('abi_fast_qpcr_96_alum_opentrons_100ul', '1', 'PCR plate')
     num_dest_1 = dest_plate.rows()[:num_rows]
     num_dest_2 = dest_plate.columns()[:num_cols]
 

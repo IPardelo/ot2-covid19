@@ -70,16 +70,16 @@ def run(ctx: protocol_api.ProtocolContext):
     # Load LabWare
     # ------------------------
     # Tip racks
-    tips = [ctx.load_labware('opentrons_96_filtertiprack_200ul', slot, 'Tiprack') for slot in ['11']]
+    tips = [ctx.load_labware('opentrons_96_filtertiprack_200ul', slot, '200µl filter tiprack') for slot in ['11']]
 
     # Pipette
     p300 = ctx.load_instrument('p300_single_gen2', 'left', tip_racks=tips)
 
-    # Source (in this case X opentrons 24 tube rack 2ml)
-    source_plate = ctx.load_labware('abgene_96_wellplate_800ul', '1', 'PCR')
+    # Source
+    source_plate = ctx.load_labware('abi_fast_qpcr_96_alum_opentrons_100ul', '1', 'PCR plate')
     sources = source_plate.wells()[:num_sources]
 
-    # Destination (in this case Xs well plate)
+    # Destination
     dest_plate = ctx.load_labware('opentrons_24_tuberack_generic_2ml_screwcap', '4', 'Tuberack')
     destinations = dest_plate.wells()[:num_dest]
 
@@ -99,7 +99,7 @@ def run(ctx: protocol_api.ProtocolContext):
             # Calculate pickup_height based on remaining volume and shape of container
             common.move_vol_multichannel(ctx, p300, reagent=sample, source=source, dest=dest,
                                          vol=volume_to_be_transfered / num_sources, air_gap_vol=air_gap_vol_sample,
-                                         pickup_height=1, disp_height=dispense_height,
+                                         pickup_height=0, disp_height=dispense_height,
                                          x_offset=x_offset, blow_out=True, touch_tip=True)
             # Drop pipette tip
             p300.drop_tip()

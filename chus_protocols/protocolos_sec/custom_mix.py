@@ -69,10 +69,10 @@ def run(ctx: protocol_api.ProtocolContext):
     # Load LabWare
     # ------------------------
     # Tip racks
-    tips = [ctx.load_labware('opentrons_96_filtertiprack_20ul', slot, '20µl filter tiprack') for slot in ['11']]
+    tips = [ctx.load_labware('opentrons_96_filtertiprack_200ul', slot, '200µl filter tiprack') for slot in ['11']]
 
     # Pipette
-    p20 = ctx.load_instrument('p20_single_gen2', 'right', tip_racks=tips)
+    p300 = ctx.load_instrument('p300_single_gen2', 'left', tip_racks=tips)
 
     # Source
     source = ctx.load_labware('opentrons_24_tuberack_generic_2ml_screwcap', '4', 'Tuberack')
@@ -86,21 +86,21 @@ def run(ctx: protocol_api.ProtocolContext):
     # Protocol
     # ------------------
     for s in source_racks:
-        if not p20.hw_pipette['has_tip']:
-            common.pick_up(p20)
+        if not p300.hw_pipette['has_tip']:
+            common.pick_up(p300)
 
-        common.move_vol_multichannel(ctx, p20, reagent=buffer, source=s, dest=dest_rack,
+        common.move_vol_multichannel(ctx, p300, reagent=buffer, source=s, dest=dest_rack,
                                      vol=volume_to_be_moved, air_gap_vol=air_gap_vol_sample,
                                      pickup_height=pickup_height, disp_height=dispense_height,
                                      x_offset=x_offset, blow_out=True, touch_tip=True)
 
         # Drop pipette tip
-        p20.drop_tip()
+        p300.drop_tip()
 
-    if not p20.hw_pipette['has_tip']:
-        common.pick_up(p20)
+    if not p300.hw_pipette['has_tip']:
+        common.pick_up(p300)
 
-    common.custom_mix(p20, reagent=buffer, location=dest_rack, vol=volume_to_be_moved,
+    common.custom_mix(p300, reagent=buffer, location=dest_rack, vol=volume_to_be_moved,
                       rounds=rounds, blow_out=True, mix_height=dispense_height, x_offset=x_offset, source_height=dispense_height)
 
-    p20.drop_tip()
+    p300.drop_tip()
