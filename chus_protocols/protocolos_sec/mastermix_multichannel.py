@@ -101,12 +101,11 @@ def run(ctx: protocol_api.ProtocolContext):
     if not p20.hw_pipette['has_tip']:
         common.pick_up(p20)
 
-    for i in range(10):
-        for d in dest_1:
-            common.move_vol_multichannel(ctx, p20, reagent=sample, source=source_1, dest=d,
-                                         vol=volume_to_be_transfered, air_gap_vol=air_gap_vol_sample,
-                                         x_offset=x_offset, pickup_height=1, disp_height=-10,
-                                         blow_out=True, touch_tip=True)
+    for d in dest_1:
+        common.move_vol_multichannel(ctx, p20, reagent=sample, source=source_1, dest=d,
+                                     vol=volume_to_be_transfered, air_gap_vol=air_gap_vol_sample,
+                                     x_offset=x_offset, pickup_height=1, disp_height=-10,
+                                     blow_out=True, touch_tip=False)
 
     p20.return_tip()
 
