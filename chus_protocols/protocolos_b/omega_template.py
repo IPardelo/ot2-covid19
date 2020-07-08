@@ -53,6 +53,7 @@ metadata = {
 # Protocol parameters
 # #####################################################
 NUM_SAMPLES = 8
+MAGNET_HEIGHT = 10.5
 RESET_TIPCOUNT = True
 PROTOCOL_ID = "GM"
 recycle_tip = False # Do you want to recycle tips? It shoud only be set True for testing
@@ -714,8 +715,8 @@ def run(ctx: protocol_api.ProtocolContext):
     # -----------------------------------------------------
     # Magnetic module + labware
     # -----------------------------------------------------
-    # magdeck = robot.load_module('Magnetic Module Gen2', '4')
-    magdeck = robot.load_module('magdeck', '4')
+    magdeck = robot.load_module('Magnetic Module Gen2', '4')
+    #magdeck = robot.load_module('magdeck', '4')
     magnet_rack = magdeck.load_labware('nest_96_wellplate_2000ul', 'nest_96_wellplate_2000ul')
     magdeck.disengage()
 
@@ -828,7 +829,7 @@ def run(ctx: protocol_api.ProtocolContext):
     # Activar el módulo magnético
     # -----------------------------------------------------
     def magnet_on():
-        magdeck.engage(height = 10.5)
+        magdeck.engage(height = MAGNET_HEIGHT)
 
     # -----------------------------------------------------
     # Desactivar el módulo magnético
@@ -925,7 +926,7 @@ def run(ctx: protocol_api.ProtocolContext):
                         volume=45,
                         src=src,
                         x_offset_src=x_offset_source,
-			pickup_height=4.5)
+			            pickup_height=4.5)
           
     # -----------------------------------------------------
     # Transfer ethanol
@@ -955,7 +956,7 @@ def run(ctx: protocol_api.ProtocolContext):
                         src = eth_src[c_eth][0],
                         dest = dest_wells,
                         max_volume = 175,
-                        disp_height=3,
+                        disp_height=3 + MAGNET_HEIGHT,
                         extra_dispensal = 0,
                         touch_tip_aspirate = False,
                         touch_tip_dispense = False)
@@ -991,7 +992,8 @@ def run(ctx: protocol_api.ProtocolContext):
                         tube_type=fpcr_tube,
                         volume=200,
                         src=src,
-                        x_offset_src=x_offset_source)
+                        x_offset_src=x_offset_source,
+                        pickup_height=4.5 + MAGNET_HEIGHT)
 
 
     # -----------------------------------------------------
@@ -1021,7 +1023,7 @@ def run(ctx: protocol_api.ProtocolContext):
                     src = rsb_src[c_rsb][0],
                     dest = dest_wells,
                     max_volume = 175,
-                    disp_height = 3,
+                    disp_height = 3 + MAGNET_HEIGHT,
                     extra_dispensal = 0,
                     touch_tip_aspirate = False,
                     touch_tip_dispense = False)
@@ -1090,7 +1092,8 @@ def run(ctx: protocol_api.ProtocolContext):
                         src=src,
                         dest=dest,
                         x_offset_src=x_offset_source,
-                        max_volume=200)
+                        max_volume=200,
+                        pickup_height = 1 + MAGNET_HEIGHT)
 
             # Drop tip
             drop(m300)
@@ -1099,6 +1102,7 @@ def run(ctx: protocol_api.ProtocolContext):
     # Execution plan
     # -----------------------------------------------------
     STEPS = {
+        0:{'Execute': True, 'Function': magnet_off, 'Description': 'Desactivar el módulo magnético'},
         1:{'Execute': True, 'Function': xfer_and_mix_spb,   'Description': 'Transferir 81 µL de SPB a MIDI y mezclar 10 veces'},
         2:{'Execute': True, 'Function': xfer_and_mix_spb,   'Description': 'Transferir 81 µL de SPB a MIDI y mezclar 10 veces'},
         3:{'Execute': True, 'Function': wait,       'Description': 'Incubar a temperatura ambiente 5 min', 'wait_time': 3},
