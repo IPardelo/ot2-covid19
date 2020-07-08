@@ -29,8 +29,8 @@ metadata = {
 # ------------------------
 # Protocol parameters
 # ------------------------
-NUM_SAMPLES = 8
-brand_name = 'roche'
+NUM_SAMPLES = 4
+brand_name = 'seegene'
 
 num_cols = math.ceil(NUM_SAMPLES / 8)
 x_offset = [0, 0]
@@ -107,11 +107,14 @@ def run(ctx: protocol_api.ProtocolContext):
     # Protocol
     # ------------------
     if requires_double_master_mix:
+        test_control_m1 = pcr_plate_destination.wells()[NUM_SAMPLES * 2:(NUM_SAMPLES * 2) + 2]
+        test_control_m2 = pcr_plate_destination.wells()[(NUM_SAMPLES * 2) + 2:(NUM_SAMPLES * 2) + 4]
         second_destinations = pcr_plate_destination.wells()[NUM_SAMPLES:NUM_SAMPLES*2]
-        mov = [(source_master_mix[0], destinations), (source_master_mix[1], second_destinations)]
+        mov = [(source_master_mix[0], destinations + test_control_m1), (source_master_mix[1], second_destinations + test_control_m2)]
         rna_destinations = zip(destination_by_columns, destination_by_columns_second_sample)
     else:
-        mov = [(source_master_mix[0], destinations)]
+        test_control_m1 = pcr_plate_destination.wells()[NUM_SAMPLES:NUM_SAMPLES + 2]
+        mov = [(source_master_mix[0], destinations + test_control_m1)]
         rna_destinations = [destination_by_columns]
 
     # Dispense master mix
