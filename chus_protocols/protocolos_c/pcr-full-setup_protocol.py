@@ -31,7 +31,8 @@ metadata = {
 # Protocol parameters
 # ------------------------
 NUM_SAMPLES = 4
-brand_name = 'seegene-2019-ncov'
+brand_name = 'vircell'
+pickup_height = 3
 
 
 # ------------------------
@@ -123,20 +124,20 @@ def run(ctx: protocol_api.ProtocolContext):
             destination = destinations[i]
             common.move_vol_multichannel(ctx, p20, reagent=master_mix, source=source, dest=destination,
                                          vol=brand_master_mix, air_gap_vol=air_gap_vol_source,
-                                         x_offset=x_offset, pickup_height=1, rinse=master_mix.get('rinse'),
+                                         x_offset=x_offset, pickup_height=pickup_height,
                                          disp_height=-10, blow_out=True, touch_tip=True)
             source = source_master_mix[1]
             destination = destinations[48 + i]
             common.move_vol_multichannel(ctx, p20, reagent=master_mix, source=source, dest=destination,
                                          vol=brand_master_mix, air_gap_vol=air_gap_vol_source,
-                                         x_offset=x_offset, pickup_height=1, rinse=master_mix.get('rinse'),
+                                         x_offset=x_offset, pickup_height=pickup_height,
                                          disp_height=-10, blow_out=True, touch_tip=True)
         else:
             source = source_master_mix[0]
             destination = destinations[i]
             common.move_vol_multichannel(ctx, p20, reagent=master_mix, source=source, dest=destination,
                                          vol=brand_master_mix, air_gap_vol=air_gap_vol_source,
-                                         x_offset=x_offset, pickup_height=1, rinse=master_mix.get('rinse'),
+                                         x_offset=x_offset, pickup_height=pickup_height,
                                          disp_height=-10, blow_out=True, touch_tip=True)
     p20.return_tip()
 
@@ -148,7 +149,7 @@ def run(ctx: protocol_api.ProtocolContext):
 
         common.move_vol_multichannel(ctx, m20, reagent=rna_sample, source=s, dest=d,
                                      vol=arn, air_gap_vol=air_gap_vol_source,
-                                     x_offset=x_offset, pickup_height=1, rinse=rna_sample.get('rinse'), disp_height=-10,
+                                     x_offset=x_offset, pickup_height=2, disp_height=-10,
                                      blow_out=True, touch_tip=True)
         m20.drop_tip()
 
