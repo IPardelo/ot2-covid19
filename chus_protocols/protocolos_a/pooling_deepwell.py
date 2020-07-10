@@ -47,7 +47,7 @@ tube_type_source = 'criotubo'                  # Selected destination tube for t
 # Protocol parameters (OUTPUTS)
 # ------------------------
 num_samples = 95                      # total number of destinations
-volume_to_be_transfered = 1000        # volume in uL to be moved from 1 source to 1 destination
+final_volume = 1000                   # final volume in uL in the tube
 pooling_factor = 10                   # num of destinations per source
 dispense_height = -10
 
