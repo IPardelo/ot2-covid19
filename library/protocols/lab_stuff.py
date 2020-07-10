@@ -36,7 +36,7 @@ def brands(brand_name):
             'split_pcr': True
         }
     }
-    mastermix = brands.get(brand_name).get('mastermix')
+    mastermix = brands.get(brand_name).get('master_mix')
     arn = brands.get(brand_name).get('arn')
     requires_double_master_mix = brands.get(brand_name).get('split_pcr')
     return mastermix, arn, requires_double_master_mix
