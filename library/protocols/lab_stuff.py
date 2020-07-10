@@ -4,35 +4,41 @@ import math
 # following volumes in ul
 def brands(brand_name):
     brands = {
-        'seegene': {
-            'mastermix': 17,
-            'arn': 8,
-            'requires_double_master_mix': False
+        'seegene-2019-ncov': {
+            'master_mix': 17,
+            'arn': 8
+        },
+        'seegene-sars-cov2': {
+            'master_mix': 15,
+            'arn': 5
         },
         'thermofisher': {
-            'mastermix': 15,
-            'arn': 10,
-            'requires_double_master_mix': False
+            'master_mix': 15,
+            'arn': 10
         },
         'roche': {
-            'mastermix': 10,
-            'arn': 10,
-            'requires_double_master_mix': False
+            'master_mix': 10,
+            'arn': 10
         },
         'vircell': {
-            'mastermix': 15,
+            'master_mix': 15,
             'arn': 5,
-            'requires_double_master_mix': True
+            'split_pcr': True
+        },
+        'vircell_multiplex': {
+            'master_mix': 15,
+            'arn': 5,
+            'split_pcr': False
         },
         'genomica': {
-            'mastermix': 15,
+            'master_mix': 15,
             'arn': 5,
-            'requires_double_master_mix': True
+            'split_pcr': True
         }
     }
     mastermix = brands.get(brand_name).get('mastermix')
     arn = brands.get(brand_name).get('arn')
-    requires_double_master_mix = brands.get(brand_name).get('requires_double_master_mix')
+    requires_double_master_mix = brands.get(brand_name).get('split_pcr')
     return mastermix, arn, requires_double_master_mix
 
 
