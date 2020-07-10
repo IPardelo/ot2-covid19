@@ -46,7 +46,7 @@ tube_type_source = 'criotubo'                  # Selected destination tube for t
 # Protocol parameters (OUTPUTS)
 # ------------------------
 num_samples = 90                      # total number of destinations
-volume_to_be_transfered = 1000        # volume in uL to be moved from 1 source to 1 destination
+final_volume = 1000                   # final volume in uL in the tube
 pooling_factor = 10                   # num of destinations per source
 tube_type_dest = 'criotubo'
 
@@ -127,7 +127,7 @@ def run(ctx: protocol_api.ProtocolContext):
 
             # Calculate pickup_height based on remaining volume and shape of container
             common.move_vol_multichannel(ctx, p300, reagent=sample, source=source, dest=dest,
-                                         vol=volume_to_be_transfered / pooling_factor, air_gap_vol=air_gap_vol_sample,
+                                         vol=final_volume / pooling_factor, air_gap_vol=air_gap_vol_sample,
                                          pickup_height=pickup_height, disp_height=dispense_height,
                                          x_offset=x_offset, blow_out=True, touch_tip=True)
             # Drop pipette tip
