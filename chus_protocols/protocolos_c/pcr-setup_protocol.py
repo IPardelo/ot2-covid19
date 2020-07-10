@@ -26,17 +26,21 @@ metadata = {
     'description': 'PCR preparation, mix the master mix and rna sample in pcr plate'
 }
 
+
 # ------------------------
 # Protocol parameters
 # ------------------------
-NUM_SAMPLES = 16
-x_offset = [0, 0]
+NUM_SAMPLES = 10            # Máximo: 46 para vircell o genomica, 92 para los demás  (se reservan 2, o 4 para muestras de control)
 brand_name = 'genomica'
 
+
+# ------------------------
+# Other parameters
+# ------------------------
 air_gap_vol_source = 2
 diameter_sample = 8.25
 area_section_sample = (math.pi * diameter_sample**2) / 4
-
+x_offset = [0, 0]
 brand_master_mix, arn, requires_double_master_mix = lab_stuff.brands(brand_name)
 
 # following volumes in ul
@@ -77,26 +81,33 @@ def run(ctx: protocol_api.ProtocolContext):
 
     # Destination (NUM SAMPLES x pcr plate)
     pcr_plate_destination = ctx.load_labware('abi_fast_qpcr_96_alum_opentrons_100ul', '1', 'chilled qPCR final plate')
-    destinations = pcr_plate_destination.wells()[:NUM_SAMPLES + 2]    # samples and positive and negative control
+    destinations = pcr_plate_destination.wells()
 
     # ------------------
     # Protocol
     # ------------------
-
     # Dispense master mix
-    if requires_double_master_mix:
-        second_destinations = pcr_plate_destination.wells()[NUM_SAMPLES:(NUM_SAMPLES * 2) + 4]  # samples and positive and negative control
-        mov = [(source_master_mix[0], destinations),
-               (source_master_mix[1], second_destinations)]
-    else:
-        mov = [(source_master_mix[0], destinations)]
-
-    for source, destinations in mov:
-        for d in destinations:
-            if not p20.hw_pipette['has_tip']:
-                common.pick_up(p20)
-            common.move_vol_multichannel(ctx, p20, reagent=master_mix, source=source, dest=d,
+    for i in range(0, NUM_SAMPLES+2):
+        if not p20.hw_pipette['has_tip']:
+            common.pick_up(p20)
+        if requires_double_master_mix:
+            source = source_master_mix[0]
+            destination = destinations[i]
+            common.move_vol_multichannel(ctx, p20, reagent=master_mix, source=source, dest=destination,
                                          vol=brand_master_mix, air_gap_vol=air_gap_vol_source,
-                                         x_offset=x_offset, pickup_height=1, disp_height=-10,
-                                         blow_out=True, touch_tip=True)
-        p20.drop_tip()
+                                         x_offset=x_offset, pickup_height=1, rinse=master_mix.get('rinse'),
+                                         disp_height=-10, blow_out=True, touch_tip=True)
+            source = source_master_mix[1]
+            destination = destinations[48 + i]
+            common.move_vol_multichannel(ctx, p20, reagent=master_mix, source=source, dest=destination,
+                                         vol=brand_master_mix, air_gap_vol=air_gap_vol_source,
+                                         x_offset=x_offset, pickup_height=1, rinse=master_mix.get('rinse'),
+                                         disp_height=-10, blow_out=True, touch_tip=True)
+        else:
+            source = source_master_mix[0]
+            destination = destinations[i]
+            common.move_vol_multichannel(ctx, p20, reagent=master_mix, source=source, dest=destination,
+                                         vol=brand_master_mix, air_gap_vol=air_gap_vol_source,
+                                         x_offset=x_offset, pickup_height=1, rinse=master_mix.get('rinse'),
+                                         disp_height=-10, blow_out=True, touch_tip=True)
+    p20.drop_tip()
