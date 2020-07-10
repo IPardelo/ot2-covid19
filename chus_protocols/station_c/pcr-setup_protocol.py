@@ -24,7 +24,7 @@ metadata = {
 # Protocol parameters
 # ------------------------
 NUM_SAMPLES = 10            # Máximo: 48 para vircell o genomica, 96 para los demás 
-brand_name = 'seegene'
+brand_name = 'vircell'
 
 
 # ------------------------
@@ -37,9 +37,13 @@ area_section_sample = (math.pi * diameter_sample**2) / 4
 
 # following volumes in ul
 brands = {
-    'seegene': {
+    'seegene-2019-ncov': {
         'master_mix': 17,
         'arn': 8
+    },
+    'seegene-sars-cov2': {
+        'master_mix': 15,
+        'arn': 5
     },
     'thermofisher': {
         'master_mix': 15,
@@ -53,6 +57,11 @@ brands = {
         'master_mix': 15,
         'arn': 5,
         'split_pcr': True
+    },
+    'vircell_multiplex': {
+        'master_mix': 15,
+        'arn': 5,
+        'split_pcr': False
     },
     'genomica': {
         'master_mix': 15,
