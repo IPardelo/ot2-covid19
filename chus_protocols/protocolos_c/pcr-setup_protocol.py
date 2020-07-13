@@ -31,7 +31,7 @@ metadata = {
 # Protocol parameters
 # ------------------------
 NUM_SAMPLES = 10            # Máximo: 46 para vircell o genomica, 92 para los demás  (se reservan 2, o 4 para muestras de control)
-brand_name = 'seegene'
+brand_name = 'vircell'
 pickup_height = 3
 
 # ------------------------
@@ -111,3 +111,4 @@ def run(ctx: protocol_api.ProtocolContext):
                                          x_offset=x_offset, pickup_height=pickup_height,
                                          disp_height=-10, blow_out=True, touch_tip=True)
     p20.drop_tip()
+    

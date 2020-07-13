@@ -30,14 +30,15 @@ metadata = {
 # ------------------------
 # Protocol parameters
 # ------------------------
-NUM_SAMPLES = 4
-brand_name = 'vircell'
-pickup_height = 3
+NUM_SAMPLES = 4                                     # Número de muestras (máximo 22, o 20 si es doble Mastermix)
+brand_name = 'vircell'                              # Mastermix a dispensar
+tube_type_dest = 'criotubo'                         # Tipo de tubo que contiene el ARN 
 
 
 # ------------------------
 # Other parameters
 # ------------------------
+(_, _, _, _, pickup_height) = lab_stuff.tubes(tube_type_dest)
 num_cols = math.ceil(NUM_SAMPLES / 8)
 x_offset = [0, 0]
 air_gap_vol_source = 2
@@ -94,23 +95,17 @@ def run(ctx: protocol_api.ProtocolContext):
 
     # Pipettes
     p20 = ctx.load_instrument('p20_single_gen2', 'right', tip_racks=tips)
-    m20 = ctx.load_instrument('p20_multi_gen2', 'left', tip_racks=tips)
 
     # Source (master_mix in and deep-weel with NUM SAMPLES x RNA samples)
     source_master_mix = ctx.load_labware('opentrons_24_aluminumblock_generic_2ml_screwcap', '7', 'Bloque Aluminio opentrons 24 screwcaps 2000 µL')
     source_master_mix = source_master_mix.wells()
 
-    source_rna_samples = ctx.load_labware('abgene_96_wellplate_800ul', '5', 'ABGENE 96 Well Plate 800 µL')
-    sources_rna = source_rna_samples.rows()[0][:num_cols]
+    source_rna_samples = ctx.load_labware('opentrons_24_tuberack_generic_2ml_screwcap', '5', 'source tuberack with screwcap')
+    sources_rna = source_rna_samples.wells()
 
     # Destination (NUM SAMPLES x pcr plate)
     pcr_plate_destination = ctx.load_labware('abi_fast_qpcr_96_alum_opentrons_100ul', '1', 'chilled qPCR final plate')
     destinations = pcr_plate_destination.wells()
-    if requires_double_master_mix:
-        destinations_by_columns = pcr_plate_destination.rows()[0][:num_cols] + pcr_plate_destination.rows()[0][
-                                                                               6:(6 + num_cols)]
-    else:
-        destinations_by_columns = pcr_plate_destination.rows()[0][:num_cols]
 
     # ------------------
     # Protocol
@@ -119,37 +114,43 @@ def run(ctx: protocol_api.ProtocolContext):
     for i in range(0, NUM_SAMPLES + 2):
         if not p20.hw_pipette['has_tip']:
             common.pick_up(p20)
-        if requires_double_master_mix:
-            source = source_master_mix[0]
-            destination = destinations[i]
-            common.move_vol_multichannel(ctx, p20, reagent=master_mix, source=source, dest=destination,
+
+        source = source_master_mix[0]
+        destination = destinations[i]
+        common.move_vol_multichannel(ctx, p20, reagent=master_mix, source=source, dest=destination,
                                          vol=brand_master_mix, air_gap_vol=air_gap_vol_source,
                                          x_offset=x_offset, pickup_height=pickup_height,
                                          disp_height=-10, blow_out=True, touch_tip=True)
+        
+        if requires_double_master_mix:            
             source = source_master_mix[1]
             destination = destinations[48 + i]
             common.move_vol_multichannel(ctx, p20, reagent=master_mix, source=source, dest=destination,
                                          vol=brand_master_mix, air_gap_vol=air_gap_vol_source,
                                          x_offset=x_offset, pickup_height=pickup_height,
                                          disp_height=-10, blow_out=True, touch_tip=True)
-        else:
-            source = source_master_mix[0]
-            destination = destinations[i]
+    p20.return_tip()
+
+    # Dispense RNA
+    for i in range(0, NUM_SAMPLES + 2):
+        if not p20.hw_pipette['has_tip']:
+            common.pick_up(p20)
+
+        source = sources_rna[i]
+        destination = destinations[i]
+        common.move_vol_multichannel(ctx, p20, reagent=master_mix, source=source, dest=destination,
+                                         vol=brand_master_mix, air_gap_vol=air_gap_vol_source,
+                                         x_offset=x_offset, pickup_height=pickup_height,
+                                         disp_height=-10, blow_out=True, touch_tip=True)
+        p20.drop_tip()
+
+        if requires_double_master_mix:
+            destination = destinations[48 + i]
+            common.pick_up(p20)
             common.move_vol_multichannel(ctx, p20, reagent=master_mix, source=source, dest=destination,
                                          vol=brand_master_mix, air_gap_vol=air_gap_vol_source,
                                          x_offset=x_offset, pickup_height=pickup_height,
                                          disp_height=-10, blow_out=True, touch_tip=True)
-    p20.return_tip()
+            p20.drop_tip()
 
-
-    # Dispense RNA samples
-    for s, d in zip(sources_rna, destinations_by_columns):
-        if not m20.hw_pipette['has_tip']:
-            common.pick_up(m20)
-
-        common.move_vol_multichannel(ctx, m20, reagent=rna_sample, source=s, dest=d,
-                                     vol=arn, air_gap_vol=air_gap_vol_source,
-                                     x_offset=x_offset, pickup_height=2, disp_height=-10,
-                                     blow_out=True, touch_tip=True)
-        m20.drop_tip()
-
+        
