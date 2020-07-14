@@ -32,7 +32,7 @@ metadata = {
 # ------------------------
 NUM_SAMPLES = 4                                     # Número de muestras (máximo 22, o 20 si es doble Mastermix)
 brand_name = 'vircell'                              # Mastermix a dispensar
-tube_type_dest = 'criotubo'                         # Tipo de tubo que contiene el ARN 
+tube_type_dest = 'labturbo'                         # Tipo de tubo que contiene el ARN 
 
 
 # ------------------------

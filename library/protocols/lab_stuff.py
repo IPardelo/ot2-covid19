@@ -54,6 +54,12 @@ def tubes(tube_tipe):
             'hpick': 3.5,       #previously it was: 1.5
             'hcono': 19
         },
+        'labturbo': {
+            'diameter': 8,
+            'hdisp': -2,
+            'hpick': 1,       
+            'hcono': 6
+        },
         'criotubo': {
             'diameter': 8,
             'hdisp': 0.5,
@@ -74,7 +80,7 @@ def tubes(tube_tipe):
     #Calculos
     area = (math.pi * diameter**2) / 4
 
-    if tube_tipe == 'falcon':
+    if tube_tipe == 'falcon' or tube_tipe == 'labturbo':
         vcono = 1 / 3 * hcono * area
         hcono = vcono * 3 / area
     else:
