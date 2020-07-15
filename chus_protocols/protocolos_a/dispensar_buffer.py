@@ -40,7 +40,7 @@ NUM_OF_SOURCES_PER_RACK = 24
 # Buffer specific parameters (INPUTS)
 # ------------------------
 buffer_name = 'Lisis'                           # Selected buffer for this protocol
-tube_type_source = 'falcon'                     # Selected tube for this protocol
+tube_type_source = 'falcon'                     # Selected buffer tube for this protocol
 
 
 # ------------------------
@@ -48,7 +48,7 @@ tube_type_source = 'falcon'                     # Selected tube for this protoco
 # ------------------------
 num_destinations = 96                           # number of slots for the destination rack
 volume_to_be_moved = 300                        # volume in uL to be moved from 1 source to 1 destination
-tube_type_dest = 'criotubo'                      # Selected destination tube for this protocol
+tube_type_dest = 'criotubo'                     # Selected destination tube for this protocol
 
 
 # ------------------------
