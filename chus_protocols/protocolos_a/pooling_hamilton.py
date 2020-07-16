@@ -39,16 +39,16 @@ NUM_OF_SOURCES_PER_RACK = 24
 # ------------------------
 # Sample specific parameters (INPUTS)
 # ------------------------
-reagent_name = 'Sample'                           # Selected buffer for this protocol
-tube_type_source = 'criotubo'                  # Selected destination tube for this protocol
+reagent_name = 'Sample'                      # Selected buffer for this protocol
+tube_type_source = 'criotubo'                # Selected source tube for this protocol
 
 # ------------------------
 # Protocol parameters (OUTPUTS)
 # ------------------------
-num_samples = 90                      # total number of destinations
-final_volume = 1000                   # final volume in uL in the tube
-pooling_factor = 10                   # num of destinations per source
-tube_type_dest = 'criotubo'
+num_samples = 90                            # total number of destinations
+final_volume = 1000                         # final volume in uL in the tube
+pooling_factor = 10                         # num of destinations per source
+tube_type_dest = 'criotubo'                 # Selected destination tube for this protocol
 
 # ------------------------
 # Pipette parameters
