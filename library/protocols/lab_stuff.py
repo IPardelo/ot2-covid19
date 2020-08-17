@@ -66,6 +66,18 @@ def tubes(tube_tipe):
             'hpick': 3.5,
             'hcono': 2
         },
+        'criotubo_conico': {
+            'diameter': 8,
+            'hdisp': 0.5,
+            'hpick': 4.2,
+            'hcono': 2
+        },
+        'serologia': {
+            'diameter': 1.4,
+            'hdisp': 0.5,
+            'hpick': 9.8,
+            'hcono': 2
+        },
         'f_redondo': {
             'diameter': 9,
             'hdisp': -5,
