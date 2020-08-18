@@ -46,42 +46,48 @@ def tubes(tube_tipe):
     tubes = {
         'falcon': {
             'diameter': 28,
-            'hcono': 14         #previously it was: 17.4
+            'hcono': 14         #previously it was: 174
         },
         'eppendorf': {
             'diameter': 9,
             'hdisp': -2,
-            'hpick': 3.5,       #previously it was: 1.5
+            'hpick': 20,       #previously it was: 35
             'hcono': 19
         },
         'labturbo': {
             'diameter': 8,
             'hdisp': -2,
-            'hpick': 1,       
+            'hpick': 10,
             'hcono': 6
         },
         'criotubo': {
             'diameter': 8,
-            'hdisp': 0.5,
-            'hpick': 3.5,
+            'hdisp': 5,
+            'hpick': 15,
             'hcono': 2
         },
         'criotubo_conico': {
             'diameter': 8,
             'hdisp': 0.5,
-            'hpick': 4.2,
+            'hpick': 15,
             'hcono': 2
         },
         'serologia': {
-            'diameter': 1.4,
+            'diameter': 14,
             'hdisp': 0.5,
-            'hpick': 9.8,
+            'hpick': 56,        #tube height = 98
             'hcono': 2
         },
         'f_redondo': {
             'diameter': 9,
             'hdisp': -5,
-            'hpick': -10,
+            'hpick': 15,
+            'hcono': 3
+        },
+        'f_redondo2': {
+            'diameter': 10,
+            'hdisp': -5,
+            'hpick': 15,
             'hcono': 3
         }
     }
@@ -106,31 +112,31 @@ def buffer(buffer_name):
             'flow_rate_aspirate': 1,  # multiplier
             'flow_rate_dispense': 1,  # multiplier
             'delay': 1,  # delay after aspirate: to allow drops to fall before moving the pipette
-            'vol_well': 30000
+            'vol_well': 45000
         },
         'Lisis': {
             'flow_rate_aspirate': 1,  # multiplier
             'flow_rate_dispense': 1,  # multiplier
             'delay': 1,  # delay after aspirate: to allow drops to fall before moving the pipette
-            'vol_well': 30000
+            'vol_well': 45000
         },
         'Roche Cobas': {
             'flow_rate_aspirate': 1,  # multiplier
             'flow_rate_dispense': 1,  # multiplier
             'delay': 1,  # delay after aspirate: to allow drops to fall before moving the pipette
-            'vol_well': 30000
+            'vol_well': 45000
         },
         'UXL Longwood': {
             'flow_rate_aspirate': 1,  # multiplier
             'flow_rate_dispense': 1,  # multiplier
             'delay': 3,  # delay after aspirate: to allow drops to fall before moving the pipette
-            'vol_well': 30000
+            'vol_well': 45000
         },
         'Roche Bleau': {
             'flow_rate_aspirate': 1,  # multiplier
             'flow_rate_dispense': 1,  # multiplier
             'delay': 3,  # delay after aspirate: to allow drops to fall before moving the pipette
-            'vol_well': 30000
+            'vol_well': 45000
         },
     }
     return buffer[buffer_name]

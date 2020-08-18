@@ -39,14 +39,21 @@ NUM_OF_SOURCES_PER_RACK = 24
 # Sample specific parameters (INPUTS)
 # ------------------------
 buffer_name = 'Lisis'                           # Selected buffer for this protocol
-tube_type_source = 'criotubo'                      # Selected destination tube for this protocol
+tube_type_source = 'f_redondo2'                      # Selected destination tube for this protocol
+
+
+# ------------------------
+# Volúmenes
+# ------------------------
+volume_sample_fredondo = 0
+volume_sample_alicuota = 0
+volume_sample = 995                             # final volume of sample
 
 
 # ------------------------
 # Protocol parameters  (OUTPUTS)
 # ------------------------
 num_samples = 96                                # num of samples
-volume_sample = 995                             # final volume of sample
 tube_type_dest = 'criotubo'                      # Selected destination tube for this protocol
 
 
