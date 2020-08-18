@@ -48,10 +48,10 @@ def tubes(tube_tipe):
             'diameter': 28,
             'hcono': 14         #previously it was: 174
         },
-        'eppendorf': {
+        'eppendorf': {          #alias magcore
             'diameter': 9,
             'hdisp': -2,
-            'hpick': 20,       #previously it was: 35
+            'hpick': 20,        #previously it was: 35
             'hcono': 19
         },
         'labturbo': {
@@ -60,10 +60,10 @@ def tubes(tube_tipe):
             'hpick': 10,
             'hcono': 6
         },
-        'criotubo': {
+        'criotubo': {           #alias magnapure
             'diameter': 8,
             'hdisp': 5,
-            'hpick': 15,
+            'hpick': 10,
             'hcono': 2
         },
         'criotubo_conico': {
@@ -84,7 +84,7 @@ def tubes(tube_tipe):
             'hpick': 15,
             'hcono': 3
         },
-        'f_redondo2': {
+        'f_redondo2': {         #alias alipota
             'diameter': 10,
             'hdisp': -5,
             'hpick': 15,
