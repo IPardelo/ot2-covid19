@@ -45,7 +45,7 @@ tube_type_source = 'criotubo'                # Selected source tube for this pro
 # ------------------------
 # Protocol parameters (OUTPUTS)
 # ------------------------
-num_samples = 90                            # total number of destinations
+num_samples = 20                            # total number of destinations
 final_volume = 1000                         # final volume in uL in the tube
 pooling_factor = 10                         # num of destinations per source
 tube_type_dest = 'criotubo'                 # Selected destination tube for this protocol

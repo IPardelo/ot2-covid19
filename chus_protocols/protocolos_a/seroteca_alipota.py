@@ -45,8 +45,6 @@ tube_type_source = 'f_redondo2'                      # Selected destination tube
 # ------------------------
 # Volúmenes
 # ------------------------
-volume_sample_fredondo = 0
-volume_sample_alicuota = 0
 volume_sample = 995                             # final volume of sample
 
 
@@ -112,7 +110,7 @@ def run(ctx: protocol_api.ProtocolContext):
 
         # Calculate pickup_height based on remaining volume and shape of container
         common.move_vol_multichannel(ctx, p1000, reagent=sample, source=s, dest=d,
-                              vol=volume_sample, air_gap_vol=air_gap_vol_sample,
+                              vol=volume_sample, air_gap_vol=0,
                               pickup_height=pickup_height, disp_height=dispense_height,
                               x_offset=x_offset, blow_out=True, touch_tip=True)
         # Drop pipette tip

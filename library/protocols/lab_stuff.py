@@ -72,7 +72,7 @@ def tubes(tube_tipe):
             'hpick': 15,
             'hcono': 2
         },
-        'serologia': {
+        'serologia': {          #alias tubo primario
             'diameter': 14,
             'hdisp': 0.5,
             'hpick': 56,        #tube height = 98

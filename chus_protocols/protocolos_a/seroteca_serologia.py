@@ -45,21 +45,19 @@ tube_type_source = 'f_redondo2'                      # Selected destination tube
 # ------------------------
 # Volúmenes
 # ------------------------
-volume_sample_fredondo = 0
-volume_sample_alicuota = 0
-volume_sample = 995                             # final volume of sample
+volume_sample = 1000                             # volumen a mover, el valor tiene que ser 1000 o menor
 
 
 # ------------------------
 # Protocol parameters  (OUTPUTS)
 # ------------------------
-num_samples = 96                                # num of samples
-tube_type_dest = 'criotubo'                      # Selected destination tube for this protocol
+num_samples = 9                                # num of samples
+tube_type_dest = 'criotubo_conico'                    # Selected destination tube for this protocol
 
 
 # ------------------------
 # Pipette parameters
-# ------------------------
+# ------------------------serologia
 air_gap_vol_sample = 5
 x_offset = [0, 0]
 
@@ -70,7 +68,7 @@ x_offset = [0, 0]
 (_, _, _, _, pickup_height) = lab_stuff.tubes(tube_type_source)
 (_, _, _, dispense_height, _) = lab_stuff.tubes(tube_type_dest)
 (sample) = lab_stuff.buffer(buffer_name)
-
+sample['rinse'] = False
 
 def run(ctx: protocol_api.ProtocolContext):
     # ------------------------
@@ -85,7 +83,7 @@ def run(ctx: protocol_api.ProtocolContext):
     # Source
     source_rack_num = math.ceil(num_samples / NUM_OF_SOURCES_PER_RACK) if num_samples < MAX_NUM_OF_SOURCES else MIN_NUM_OF_SOURCES
     source_racks = [ctx.load_labware(
-        'opentrons_24_aluminumblock_generic_2ml_screwcap', slot,
+        'opentrons_15_tuberack_falcon_15ml_conical', slot,
         'Bloque Aluminio opentrons 24 screwcaps 2000 µL' + str(i + 1)) for i, slot in enumerate(['10', '7', '4', '1'][:source_rack_num])
     ]
     source_racks = common.generate_source_table(source_racks)
@@ -110,12 +108,11 @@ def run(ctx: protocol_api.ProtocolContext):
         if not p1000.hw_pipette['has_tip']:
             common.pick_up(p1000)
 
-        for v in [1000, 500]:
-            # Calculate pickup_height based on remaining volume and shape of container
-            common.move_vol_multichannel(ctx, p1000, reagent=sample, source=s, dest=d,
-                                  vol=v, air_gap_vol=0,
-                                  pickup_height=pickup_height, disp_height=dispense_height,
-                                  x_offset=x_offset, blow_out=True, touch_tip=True)
+        # Calculate pickup_height based on remaining volume and shape of container
+        common.move_vol_multichannel(ctx, p1000, reagent=sample, source=s, dest=d,
+                              vol=volume_sample, air_gap_vol=0,
+                              pickup_height=pickup_height, disp_height=dispense_height,
+                              x_offset=x_offset, blow_out=True, touch_tip=True)
         # Drop pipette tip
         p1000.drop_tip()
 
