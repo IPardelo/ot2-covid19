@@ -51,25 +51,25 @@ def tubes(tube_tipe):
         'eppendorf': {          #alias magcore
             'diameter': 9,
             'hdisp': -2,
-            'hpick': 20,        #previously it was: 35
+            'hpick': 2,        #previously it was: 35
             'hcono': 19
         },
         'labturbo': {
             'diameter': 8,
             'hdisp': -2,
-            'hpick': 10,
+            'hpick': 1,
             'hcono': 6
         },
         'criotubo': {           #alias magnapure
             'diameter': 8,
             'hdisp': 5,
-            'hpick': 10,
+            'hpick': 2,
             'hcono': 2
         },
         'criotubo_conico': {
             'diameter': 8,
             'hdisp': 0.5,
-            'hpick': 15,
+            'hpick': 2,
             'hcono': 2
         },
         'serologia': {          #alias tubo primario
