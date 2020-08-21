@@ -32,10 +32,9 @@ metadata = {
 # ------------------------
 numero_muestras = 6                             # Número de muestras (sin las muestras de control) 
                                                     #   (máximo 22, o 20 si es doble Mastermix)
-master_mix_vol = 15                                 # Volumen de mastermix en uL
-arn_vol = 5                                         # Volumen de arn en uL
-doble_mix = True                                    # True para usar dos mastermix (una en cada mitad de la PCR). 
-                                                    #   False para usar solamente una mastermix
+brand_name = 'roche'
+master_mix_vol, arn_vol, doble_mix = lab_stuff.brands(brand_name)
+
 tipo_de_tubo = 'labturbo'                           # Tipo de tubo que contiene el ARN: 'labturbo' o 'criotubo'
 
 
