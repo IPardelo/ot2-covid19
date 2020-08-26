@@ -58,7 +58,7 @@ def fast_dispense(pipette, reagent, source, dests, vol_aspirate, vol_dispense, a
 # Protocol parameters
 # ------------------------
 numero_muestras = 44                        # Número de muestras (sin las muestras de control)
-                                            # (máximo 22, o 20 si es doble Mastermix)                                            
+                                            # (máximo 94 si es una mastermix, o 44 si es doble)                                            
 brand_name = 'genomica'
 tipo_de_tubo = 'eppendorf'                  # Tipo de tubo que contiene el ARN: 'labturbo' o 'criotubo'
 
@@ -136,9 +136,10 @@ def run(ctx: protocol_api.ProtocolContext):
     rack_num = math.ceil(numero_muestras / NUM_OF_SOURCES_PER_RACK) if numero_muestras < MAX_NUM_OF_SOURCES else MIN_NUM_OF_SOURCES
     source_rna_samples = common.generate_source_table([ctx.load_labware(
         'opentrons_24_tuberack_generic_2ml_screwcap', slot,
-        'source tuberack with screwcap' + str(i + 1)) for i, slot in enumerate(['5', '6',][:rack_num])
+        'source tuberack with screwcap' + str(i + 1)) for i, slot in enumerate(['5', '6', '2', '3'][:rack_num])
     ])
     sources_rna = source_rna_samples[:numero_muestras]
+
 
     # Destination (NUM SAMPLES x pcr plate)
     pcr_plate_destination = ctx.load_labware('abi_fast_qpcr_96_alum_opentrons_100ul', '1', 'chilled qPCR final plate')
