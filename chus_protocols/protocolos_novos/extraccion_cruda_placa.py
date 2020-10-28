@@ -39,13 +39,14 @@ NUM_OF_SOURCES_PER_RACK = 24
 # Sample specific parameters (INPUTS)
 # ------------------------
 reagent_name = 'Sample'                    # Selected buffer for this protocol
-num_samples = 2                           # total number of samples
+num_samples = 32                           # total number of samples
 tube_type_source = 'criotubo'             # Selected source tube for this protocol
 
 
 # ------------------------
 # Protocol parameters (OUTPUTS)
 # ------------------------
+num_destinations = 50
 volume_to_be_transfered = 15              # volume in uL to be moved from 1 source to 1 destination
 #tube_type_destination = 'minitubo'             # Selected source tube for this protocol
 
@@ -81,25 +82,15 @@ def run(ctx: protocol_api.ProtocolContext):
     rack_num = math.ceil(num_samples / NUM_OF_SOURCES_PER_RACK) if num_samples < MAX_NUM_OF_SOURCES else MIN_NUM_OF_SOURCES
     source_racks = [ctx.load_labware(
         'opentrons_24_tuberack_generic_2ml_screwcap', slot,
-        'Tuberack 24 tubos normales' + str(i + 1)) for i, slot in enumerate(['8', '9', '5'][:rack_num])
+        'Tuberack 24 tubos normales' + str(i + 1)) for i, slot in enumerate(['8', '9', '5', '6'][:rack_num])
     ]
     reagents = common.generate_source_table(source_racks)
-    sample_sources = reagents[0:num_samples]
+    sample_sources = reagents[:num_samples]
 
     # Destination (in this case 96 well plate)
     dest_plate = ctx.load_labware('abi_fast_qpcr_96_alum_opentrons_100ul', '3', 'Tubos individuales en placa pcr aluminio')
-    destinations0 = dest_plate.wells()[:8]
-    destinations1 = dest_plate.wells()[24:32]
-    destinations2 = dest_plate.wells()[48:56]
-    destinations3 = dest_plate.wells()[72:80]
-    
-    # Aplanamos tupla de posicions
-    flat_list = []
-    flat_list.extend(destinations0)
-    flat_list.extend(destinations1)
-    flat_list.extend(destinations2)
-    flat_list.extend(destinations3)
-    mov = zip(sample_sources, flat_list)
+    destinations = dest_plate.wells()[:num_destinations]
+
 
     # ------------------
     # Protocol
@@ -107,7 +98,7 @@ def run(ctx: protocol_api.ProtocolContext):
     if not p20.hw_pipette['has_tip']:
         common.pick_up(p20)
 
-    for s, d in mov:
+    for s, d in zip(sample_sources, destinations):
         if not p20.hw_pipette['has_tip']:
             common.pick_up(p20)
 
