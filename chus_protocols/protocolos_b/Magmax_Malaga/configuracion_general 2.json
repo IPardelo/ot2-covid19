@@ -1,0 +1,1 @@
+{"numero_muestras": 96, "volumen_transferencia_muestras": 15, "dispensar_reactivos": true, "transferir_muestras": true, "primera_punta_TipRack_20": "A1", "primera_punta_TipRack_200": "A1", "temperatura": 4, "reactivos": [{"nombre": "MX", "volumen": 1600, "volumen_transferencia_reactivo": 15, "posicion": "A1"}]}
