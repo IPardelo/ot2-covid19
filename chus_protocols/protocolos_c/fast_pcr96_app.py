@@ -11,12 +11,13 @@ robodict = {'SCR1':'69.101.94.152',
 	    'SCR2':'69.101.94.151'}
 splitmethods = ['genomica', 
 		'vircell']
-LIBRARY_PATH = '/home/laboratorio/Repositorios/ot2-covid19/library/'
+LIBRARY_PATH = '../../library/'
 
 
 ### Gooey decorator
 
-@Gooey(program_name='Opentrons: configuracion',
+@Gooey(program_name='Opentrons',
+       program_description="Fast PCR Setup 96",
        default_size=(500, 700),
        show_stop_warning = True,
        force_stop_is_error = True,
@@ -24,7 +25,23 @@ LIBRARY_PATH = '/home/laboratorio/Repositorios/ot2-covid19/library/'
        show_failure_modal = False,
        show_restart_button = False,
        language = 'spanish',
-       image_dir = '/home/laboratorio/Imagenes/')
+       image_dir = '../../library/',
+       text_color = '#ffffff',
+       body_bg_color = '#0589f8',
+       menu=[{
+        'name': 'Axuda',
+        'items': [{
+                'type': 'AboutDialog',
+                'menuTitle': 'Sobre o programa',
+                'name': 'Opentrons App Galicia',
+                'description': 'App para manexo sinxelo de protocolos',
+                'version': '1.1',
+                'copyright': '2020',
+                'website': 'https://github.com/IPardelo/ot2-covid19',
+                'developer': 'Victoria Suárez Ulloa, Ismael Castiñeira Paz'
+            }]
+       }]
+)
 #       navigation='TABBED')
 
 
@@ -32,7 +49,7 @@ def parse_args():
 
     parser = GooeyParser()
 
-    robots = parser.add_argument("robots",
+    robots = parser.add_argument("Robots",
             metavar='ROBOT',
             action='store',
             choices=['SCR1', 'SCR2'],
@@ -40,13 +57,13 @@ def parse_args():
 
 # text field to input number of samples
     samples = parser.add_argument("samples", 
-            metavar='MUESTRAS',
+            metavar='NÚMERO DE MUESTRAS',
             type=int,
             help="Inserte el numero de muestras", 
             action="store")
 
 # menus for type of library kit and type of tube
-    prot_group = parser.add_argument_group('Protocolo fast 96')    
+    prot_group = parser.add_argument_group('Parámetros protocolo')    
     prot_group.add_argument("modes",
             metavar='KIT DE REACTIVOS',
             action = 'store',
