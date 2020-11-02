@@ -407,14 +407,14 @@ def run(ctx: protocol_api.ProtocolContext):
 ############################################
     ######## Elution plate - comes from A
     magdeck = ctx.load_module('Magnetic Module Gen2', '4')
-    #deepwell_plate = magdeck.load_labware('nest_96_wellplate_100ul_pcr_full_skirt', 'NEST 96 Deep Well Plate 2 mL') # Change to NEST deepwell plate
-    deepwell_plate = magdeck.load_labware('cobas_96_deepwell_1600', 'Cobas 96 Well Plate 1600 µL') # Change to NEST deepwell plate. cobas_96_deepwell_1600
+    deepwell_plate = magdeck.load_labware('nest_96_wellplate_100ul_pcr_full_skirt', 'NEST 96 Deep Well Plate 2 mL') # Change to NEST deepwell plate
+    #deepwell_plate = magdeck.load_labware('cobas_96_deepwell_1600', 'Cobas 96 Well Plate 1600 µL') # Change to NEST deepwell plate. cobas_96_deepwell_1600
     magdeck.disengage()
 
 ####################################
     ######## Waste reservoir
-    #waste_reservoir = ctx.load_labware('nest_1_reservoir_195ml', '5', 'waste reservoir') # Change to our waste reservoir
-    waste_reservoir = ctx.load_labware('biotix_1_reservoir_560000ul', '5', 'waste reservoir')
+    waste_reservoir = ctx.load_labware('nest_1_reservoir_195ml', '5', 'waste reservoir') # Change to our waste reservoir
+    #waste_reservoir = ctx.load_labware('biotix_1_reservoir_560000ul', '5', 'waste reservoir')
     
 ####################################
     ######### Load tip_racks

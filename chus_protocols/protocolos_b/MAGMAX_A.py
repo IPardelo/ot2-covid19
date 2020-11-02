@@ -45,7 +45,7 @@ def run (protocol : protocol_api.ProtocolContext):
     muestras_4 = protocol.load_labware('opentrons_24_tuberack_nest_1.5ml_screwcap', 3)
     
     #Definición labware tubos de salida. cobas_96_deepwell_1600 'nest_96_wellplate_2ml_deep para simular'
-    tubos_salida = protocol.load_labware('cobas_96_deepwell_1600',2)
+    tubos_salida = protocol.load_labware('nest_96_deepwell_2ml',2)
     
     #Definicion labware de reactivos !!! Cambiado opentrons_24_aluminumblock_generic_2ml_screwcap
     tubos_reactivos = protocol.load_labware('opentrons_24_tuberack_nest_2ml_screwcap',7)
@@ -80,8 +80,19 @@ def run (protocol : protocol_api.ProtocolContext):
 def get_configuracion(protocol, lista_tipRacks):
     
     if not protocol.is_simulating():
-        with open('/var/lib/jupyter/notebooks/configuracion_protocolo_A/configuracion_general.json', 'r') as archivo:
-            configuracion = json.load(archivo)
+        configuracion = {
+            'numero_muestras' : 96,
+            'volumen_transferencia_muestras' : 200,
+            '10_primera_punta_TipRack_1000' : 'A1',
+            '11_primera_punta_TipRack_1000' : 'A1',
+            'primera_punta_TipRack_20' : 'A1',
+            'transferir_reactivos': True,
+            'transferir_muestras': True,
+            
+            'reactivos': [{'nombre':'MB', 'volumen':1000,'velocidad_aspiracion' : 1.0, 'volumen_transferencia_reactivo':10, 'posicion':'A1', 'premezclado': True}, 
+                         {'nombre':'PK', 'volumen':500,'velocidad_aspiracion' : 1.0, 'volumen_transferencia_reactivo':5, 'posicion':'A2', 'premezclado': False},
+                         {'nombre':'CI', 'volumen':1000,'velocidad_aspiracion' : 1.0, 'volumen_transferencia_reactivo':10, 'posicion':'A3', 'premezclado': False}]
+            }
     else:
         configuracion = {
             'numero_muestras' : 96,
