@@ -45,7 +45,7 @@ tube_type_source = 'criotubo'             # Selected source tube for this protoc
 # ------------------------
 # Protocol parameters (OUTPUTS)
 # ------------------------
-num_destinations = 50                     # total number of destinations
+num_destinations = 72                     # total number of destinations
 volume_to_be_transfered = 45              # volume in uL to be moved from 1 source to 1 destination
 #tube_type_destination = 'minitubo'       # Selected source tube for this protocol
 

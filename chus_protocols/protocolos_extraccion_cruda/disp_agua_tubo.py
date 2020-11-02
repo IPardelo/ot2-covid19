@@ -45,7 +45,7 @@ tube_type_source = 'criotubo'             # Selected source tube for this protoc
 # ------------------------
 # Protocol parameters (OUTPUTS)
 # ------------------------
-num_destinations = 22                     # total number of destinations
+num_destinations = 16                     # total number of destinations
 volume_to_be_transfered = 45              # volume in uL to be moved from 1 source to 1 destination
 #tube_type_destination = 'minitubo'       # Selected source tube for this protocol
 
@@ -85,7 +85,7 @@ def run(ctx: protocol_api.ProtocolContext):
 
     # Destination (in this case 96 well plate)
     dest_plate = ctx.load_labware('abi_fast_qpcr_96_alum_opentrons_100ul', '3', 'Tubos individuales en placa pcr aluminio')
-    destinations0 = dest_plate.wells()[:8]
+    destinations0 = dest_plate.wells()[0:8]
     destinations1 = dest_plate.wells()[24:32]
     destinations2 = dest_plate.wells()[48:56]
     destinations3 = dest_plate.wells()[72:80]
@@ -94,9 +94,9 @@ def run(ctx: protocol_api.ProtocolContext):
     part1 = []
     part1.extend(destinations0)
     part1.extend(destinations1)
-    part1.extend(destinations2)
 
     part2 = []
+    part2.extend(destinations2)
     part2.extend(destinations3)
 
 
@@ -106,27 +106,21 @@ def run(ctx: protocol_api.ProtocolContext):
     if not p200.hw_pipette['has_tip']:
         common.pick_up(p200)
 
-    if num_destinations <= 24:
+    if num_destinations <= 16:
         for d in part1:
-            if not p200.hw_pipette['has_tip']:
-                common.pick_up(p200)
             # Calculate pickup_height based on remaining volume and shape of container
             common.move_vol_multichannel(ctx, p200, reagent=sample, source=source0, dest=d,
                                         vol=volume_to_be_transfered, air_gap_vol=air_gap_vol_sample,
                                         pickup_height=pickup_height, disp_height=dispense_height,
-                                        x_offset=x_offset, blow_out=True, touch_tip=True)
+                                        x_offset=x_offset, blow_out=True, touch_tip=True)                             
     else:
         for d in part1:
-            if not p200.hw_pipette['has_tip']:
-                common.pick_up(p200)
             # Calculate pickup_height based on remaining volume and shape of container
             common.move_vol_multichannel(ctx, p200, reagent=sample, source=source0, dest=d,
                                         vol=volume_to_be_transfered, air_gap_vol=air_gap_vol_sample,
                                         pickup_height=pickup_height, disp_height=dispense_height,
                                         x_offset=x_offset, blow_out=True, touch_tip=True)
         for d in part2:
-            if not p200.hw_pipette['has_tip']:
-                common.pick_up(p200)
             # Calculate pickup_height based on remaining volume and shape of container
             common.move_vol_multichannel(ctx, p200, reagent=sample, source=source1, dest=d,
                                         vol=volume_to_be_transfered, air_gap_vol=air_gap_vol_sample,
